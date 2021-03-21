@@ -220,10 +220,10 @@ function handler(event, context) {
         }
 
         logger.info(`Found Redshift Load Configuration for ${s3Info.prefix}`);
-
+        
         var config = data.Item;
         var thisBatchId = config.currentBatch.S;
-
+        logger.info("config: " + JSON.stringify(config));
         // run all configuration upgrades required
         upgradeConfig(s3Info, config, function (err, s3Info, useConfig) {
             if (err) {
@@ -999,12 +999,13 @@ function handler(event, context) {
         var completed = false;
         var retryCount = 0;
         var lastError;
+        logger.info("starting runPgCommand");
 
         async.until(function (test_cb) {
             test_cb(null, completed || !retries || retryCount >= retries);
         }, function (asyncCallback) {
-            logger.debug("Performing Database Command:");
-            logger.debug(command);
+            logger.info("Performing Database Command:");
+            logger.info(command);
 
             client.query(command, function (queryCommandErr, result) {
                 if (queryCommandErr) {
@@ -1197,7 +1198,6 @@ function handler(event, context) {
 
                 } else if (config.dataFormat.S === 'JSON' || config.dataFormat.S === 'AVRO') {
                     copyOptions = copyOptions + ' format ' + config.dataFormat.S;
-
                     if (!(config.jsonPath === undefined || config.jsonPath === null)) {
                         copyOptions = copyOptions + ' \'' + config.jsonPath.S + '\' \n';
                     } else {
@@ -1247,7 +1247,6 @@ function handler(event, context) {
                 if (clusterInfo.postsql && clusterInfo.postsql.S) {
                     copyCommand += clusterInfo.postsql.S + (clusterInfo.postsql.S.slice(-1) == ";" ? "" : ";") + '\n'
                 }
-
                 copyCommand += 'commit;';
 
                 logger.debug("Copy Command Assembly Complete");
@@ -1274,12 +1273,14 @@ function handler(event, context) {
                 /*
 				 * connect to database and run the copy command
 				 */
+                logger.info("RS connection string: " + dbString);
                 const pgClient = new Client({
                     connectionString: dbString
                 });
-
+                logger.info(console.log("pg version: " + require('pg/package.json').version));
                 pgClient.connect((err) => {
                     if (err) {
+                        logger.info("RS connection error");
                         logger.error(err);
 
                         callback(null, {
@@ -1288,6 +1289,7 @@ function handler(event, context) {
                             cluster: clusterInfo.clusterEndpoint.S
                         });
                     } else {
+                        logger.info("Connected to RS successfully")
                         /*
 						 * run the copy command. We will allow 5 retries when
 						 * the 'specified key does not exist' error is

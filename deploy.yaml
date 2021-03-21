@@ -90,7 +90,7 @@ Resources:
   LambdaTriggerFunction:
     Type: 'AWS::Lambda::Function'
     Properties:
-      FunctionName: 'LambdaRedshiftLoader'
+      FunctionName: 'S3-Redshift-Loader'
       Handler: index.handler
       Role:
         'Fn::GetAtt':

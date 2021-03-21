@@ -13,7 +13,7 @@
         "https-proxy-agent": "3.0.1",
         "lodash": ">=4.17.19",
         "minimist": ">=1.2.3",
-        "pg": "7.14.0",
+        "pg": ">=8.3.0",
         "pg-ka-fix": "1.0.0-rm-fix",
         "pgpass": "1.0.2",
         "regex": "^0.1.1",

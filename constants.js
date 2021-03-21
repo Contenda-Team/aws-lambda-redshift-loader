@@ -10,7 +10,7 @@
 
 batchId = 'batchId';
 currentBatch = 'currentBatch';
-s3prefix = 's3Prefix';
+s3prefix = 'twitch-pipeline';
 lastUpdate = 'lastUpdate';
 complete = 'complete';
 locked = 'locked';
@@ -24,7 +24,7 @@ batchStatusGSI = 'LambdaRedshiftBatchStatus';
 filesTable = 'LambdaRedshiftProcessedFiles';
 conditionCheckFailed = 'ConditionalCheckFailedException';
 provisionedThroughputExceeded = 'ProvisionedThroughputExceededException';
-deployedFunctionName = 'LambdaRedshiftLoader';
+deployedFunctionName = 'S3-Redshift-Loader';
 INVALID_ARG = -1;
 ERROR = -1;
 OK = 0;

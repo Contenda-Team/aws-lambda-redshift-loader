@@ -25,11 +25,11 @@ Parameters:
    Description: "The KMS Key to use for Encryption of the database password"
    Type: String
  SecurityGroups:
-   Default: mygroup1, mygroup2
+   Default: sg-2ccdac4b
    Description: Security Groups as CSV list to use for the deployed function (may be required for Redshift security policy)
    Type: CommaDelimitedList
  SubnetIds:
-   Default: subnet1, subnet2, subnet3
+   Default: subnet-3083a34a, subnet-3718f25c, subnet-8df17ac1
    Description: List of private Subnets in VPC in which the function will egress network connections
    Type: CommaDelimitedList   
         
@@ -111,7 +111,7 @@ Resources:
   LambdaTriggerFunction:
     Type: 'AWS::Lambda::Function'
     Properties:
-      FunctionName: 'LambdaRedshiftLoader'
+      FunctionName: 'S3-Redshift-Loader'
       Handler: index.handler
       Role:
         'Fn::GetAtt':
